@@ -71,27 +71,7 @@ XML encoding uses XML entities to represent characters inside XML documents.
 
 This matters when the application receives XML input and decodes it before passing values to backend logic.
 
-## Lab example: SQL injection with filter bypass via XML encoding
 
-### Context
-
-The lab title mentioned XML encoding, so the first step was to look for requests using XML.
-
-### Testing process
-
-1. Browse the application while watching Burp HTTP history.
-2. Identify that the stock check feature sends XML to `POST /product/stock`.
-3. Notice that the XML contains `productId` and `storeId`.
-4. Test `storeId` because it is user-controlled.
-5. Submit a simple expression and observe a meaningful response change.
-6. Try a normal SQL injection payload.
-7. Notice that the WAF blocks the obvious payload.
-8. Encode the payload using XML entities.
-9. The backend decodes the input and the SQL logic is affected.
-
-## Root cause
-
-The application or protection layer blocks obvious input patterns but does not safely handle decoded input before it reaches sensitive backend logic.
 
 ## Defensive lessons
 
@@ -109,9 +89,9 @@ The application or protection layer blocks obvious input patterns but does not s
 - Forgetting that browsers and servers may decode input automatically.
 - Relying on WAF behavior instead of understanding the root cause.
 
-##  Related Topics
+## Related Topics
 
 - Context-specific encoding.
 - Canonicalization and input normalization.
 - Difference between encoding, encryption, and hashing.
-- How WAF bypasses work at a high level.
+- Why weak filters can miss obfuscated input.
